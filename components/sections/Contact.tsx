@@ -11,19 +11,16 @@ export default function Contact() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // honeypot: لو اتملى يبقى روبوت
     if (form.honey) {
       console.log("Bot detected");
       return;
     }
 
-    // تنظيف
     const name = form.name.trim().slice(0, 50);
     const phone = form.phone.trim().slice(0, 15);
     const email = form.email.trim().slice(0, 100);
     const message = form.message.trim().slice(0, 500);
 
-    // فاليديشن
     if (name.length < 2) return alert("الاسم قصير جدا");
     if (!/^01[0125][0-9]{8}$/.test(phone)) return alert("رقم الموبايل غير صحيح");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert("الايميل غير صحيح");
@@ -32,9 +29,16 @@ export default function Contact() {
     if (loading) return;
     setLoading(true);
 
-    const safeText = encodeURIComponent(
-      `*رسالة جديدة من موقع GrandWave*%0A%0A*الاسم:* ${name}%0A*الموبايل:* ${phone}%0A*الايميل:* ${email}%0A*الرسالة:* ${message}`
-    );
+    // ✅ الحل هنا - استخدم \n عادي وسيب encodeURIComponent هو اللي يحولها
+    const rawText = `*رسالة جديدة من موقع GrandWave*
+
+*الاسم:* ${name}
+*الموبايل:* ${phone}
+*الايميل:* ${email}
+*الرسالة:*
+${message}`;
+
+    const safeText = encodeURIComponent(rawText);
 
     const myNumber = "201008411708";
     const url = `https://wa.me/${myNumber}?text=${safeText}`;
@@ -95,7 +99,6 @@ export default function Contact() {
 
           <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
             <div className="space-y-5">
-              {/* honeypot - مخفي */}
               <input
                 type="text"
                 name="website"
