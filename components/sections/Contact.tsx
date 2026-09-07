@@ -4,37 +4,55 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Loader2, Check } from "lucide-react";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", plan: "استفسار عام" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", plan: "استفسار عام", honey: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setSent(true);
-        setForm({ name: "", email: "", phone: "", message: "", plan: "استفسار عام" });
-        setTimeout(() => setSent(false), 4000);
-      } else {
-        alert("حصل مشكلة، جرب تاني");
-      }
-    } catch (err) {
-      alert("حصل مشكلة في الاتصال");
+
+    // honeypot: لو اتملى يبقى روبوت
+    if (form.honey) {
+      console.log("Bot detected");
+      return;
     }
-    setLoading(false);
+
+    // تنظيف
+    const name = form.name.trim().slice(0, 50);
+    const phone = form.phone.trim().slice(0, 15);
+    const email = form.email.trim().slice(0, 100);
+    const message = form.message.trim().slice(0, 500);
+
+    // فاليديشن
+    if (name.length < 2) return alert("الاسم قصير جدا");
+    if (!/^01[0125][0-9]{8}$/.test(phone)) return alert("رقم الموبايل غير صحيح");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert("الايميل غير صحيح");
+    if (message.length < 10) return alert("الرسالة قصيرة جدا - 10 حروف على الأقل");
+
+    if (loading) return;
+    setLoading(true);
+
+    const safeText = encodeURIComponent(
+      `*رسالة جديدة من موقع GrandWave*%0A%0A*الاسم:* ${name}%0A*الموبايل:* ${phone}%0A*الايميل:* ${email}%0A*الرسالة:* ${message}`
+    );
+
+    const myNumber = "201008411708";
+    const url = `https://wa.me/${myNumber}?text=${safeText}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+
+    setSent(true);
+    setForm({ name: "", email: "", phone: "", message: "", plan: "استفسار عام", honey: "" });
+    setTimeout(() => {
+      setSent(false);
+      setLoading(false);
+    }, 10000);
   }
 
   return (
     <section id="contact" className="py-20 lg:py-28 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* معلومات التواصل */}
           <div>
             <span className="text-sm font-bold tracking-widest text-blue-600 uppercase mb-3 block">تواصل معنا</span>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
@@ -75,30 +93,40 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* الفورم */}
           <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
             <div className="space-y-5">
+              {/* honeypot - مخفي */}
+              <input
+                type="text"
+                name="website"
+                value={form.honey}
+                onChange={(e) => setForm({...form, honey: e.target.value })}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <div>
                 <label className="text-sm font-bold text-slate-900 mb-2 block">الاسم</label>
-                <input required type="text" placeholder="احمد محمد" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
+                <input required maxLength={50} type="text" placeholder="احمد محمد" value={form.name} onChange={(e) => setForm({...form, name: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-bold text-slate-900 mb-2 block">الموبايل</label>
-                  <input required type="text" placeholder="01xxxxxxxx" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
+                  <input required maxLength={11} type="text" placeholder="01xxxxxxxx" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
                 </div>
                 <div>
                   <label className="text-sm font-bold text-slate-900 mb-2 block">الإيميل</label>
-                  <input required type="email" placeholder="ahmed@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
+                  <input required maxLength={100} type="email" placeholder="ahmed@example.com" value={form.email} onChange={(e) => setForm({...form, email: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm" />
                 </div>
               </div>
               <div>
                 <label className="text-sm font-bold text-slate-900 mb-2 block">رسالتك</label>
-                <textarea required rows={4} placeholder="احكيلي عن مشروعك..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm resize-none" />
+                <textarea required maxLength={500} rows={4} placeholder="احكيلي عن مشروعك..." value={form.message} onChange={(e) => setForm({...form, message: e.target.value })} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none transition-all text-sm resize-none" />
               </div>
 
               <button disabled={loading || sent} type="submit" className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
-                {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> جاري الإرسال...</> : sent ? <><Check className="w-4 h-4" /> تم الإرسال بنجاح!</> : <><Send className="w-4 h-4" /> إرسال الرسالة</>}
+                {loading? <><Loader2 className="w-4 h-4 animate-spin" /> جاري الإرسال...</> : sent? <><Check className="w-4 h-4" /> تم الإرسال بنجاح!</> : <><Send className="w-4 h-4" /> إرسال الرسالة</>}
               </button>
               <p className="text-xs text-center text-slate-400">بالضغط على إرسال أنت توافق على سياسة الخصوصية</p>
             </div>
