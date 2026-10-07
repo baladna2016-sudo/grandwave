@@ -7,7 +7,7 @@ const projects = [
     title: "متجر إلكتروني للأزياء",
     category: "متجر إلكتروني",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
-    link: "#",
+    link: "https://collcion.vercel.app/",
     color: "bg-violet-500",
   },
   {
@@ -15,7 +15,7 @@ const projects = [
     title: "منصة تعليمية تفاعلية",
     category: "منصة تعليمية",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
-    link: "#",
+    link: "https://ta3leem-educational-r12n.bolt.host/",
     color: "bg-blue-500",
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     title: "موقع شركة عقارات فاخرة",
     category: "موقع شركات",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    link: "#",
+    link: "https://grand-estate-luxury.bolt.host/",
     color: "bg-emerald-500",
   },
   {
@@ -31,24 +31,40 @@ const projects = [
     title: "تطبيق حجز مطاعم",
     category: "تطبيق ويب",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
-    link: "#",
+    link: "https://sofra-restaurant-res-iqjs.bolt.host/",
     color: "bg-amber-500",
   },
   {
     id: 5,
-    title: "موقع شخصي لمصور",
-    category: "بورتفوليو",
-    image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80",
-    link: "#",
-    color: "bg-red-500",
+    title: "بورتفوليو شخصي - قالب عام",
+    category: "بورتفوليو متعدد الاستخدام",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
+    link: "https://bilingual-personal-p-lif2.bolt.host",
+    color: "bg-slate-800",
   },
   {
     id: 6,
-    title: "لوحة تحكم تحليلية",
-    category: "Dashboard",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    link: "#",
-    color: "bg-cyan-500",
+    title: "شركة بيع ماكينات البلاستيك",
+    category: "موقع شركات صناعية",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
+    link: "https://el-rowad-industrial-164l.bolt.host",
+    color: "bg-orange-600",
+  },
+  {
+    id: 7,
+    title: "عيادة نساء وتوليد",
+    category: "موقع طبي",
+    image: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80",
+    link: "https://rose-clinic-medical-xcqy.bolt.host",
+    color: "bg-pink-500",
+  },
+  {
+    id: 8,
+    title: "مصنع كيماويات صناعية",
+    category: "موقع مصنع",
+    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80",
+    link: "https://trans-chem-industria-5spn.bolt.host/",
+    color: "bg-yellow-500",
   },
 ];
 
@@ -74,19 +90,19 @@ export default function Portfolio() {
             <Link
               key={project.id}
               href={project.link}
-              className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300"
+              target="_blank"
+              className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 block"
             >
-              <div className="h- overflow-hidden bg-slate-100 relative">
+              <div className="h-64 overflow-hidden bg-slate-100 relative">
                 <img
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />لا
-                {/* الـ overlay الجديد بدون gradient */}
+                />
                 <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300" />
               </div>
 
-              <div className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+              <div className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-lg">
                 <ArrowUpRight className="w-5 h-5 text-slate-900" />
               </div>
 
