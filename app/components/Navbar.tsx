@@ -17,13 +17,18 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+      <header className="sticky top-0 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-extrabold text-xl text-slate-900">
+            <img
+              src="/logoo.jpeg"
+              alt="GrandWave Logo"
+              className="w-9 h-9 rounded-xl object-cover shadow-sm"
+            />
+            <span>GRANDWAVE<span className="text-blue-600">WEB</span></span>
             <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
               <Code2 className="w-5 h-5" />
             </div>
-            <span>GRANDWAVE<span className="text-blue-600">WEB</span></span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-600">
@@ -52,14 +57,19 @@ export default function Navbar() {
         <div className="fixed inset-0 md:hidden" style={{ zIndex: 9999 }}>
           <div onClick={() => setOpen(false)} className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm" />
 
-          <div className="absolute inset-x-0 top-0 bg-white rounded-b- shadow-2xl p-6 pb-8">
+          <div className="absolute inset-x-0 top-0 bg-white rounded-b-2xl shadow-2xl p-6 pb-8">
             <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2 font-black text-">
+              <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2 font-black text-lg">
+                <img
+                  src="/logoo.jpeg"
+                  alt="GrandWave Logo"
+                  className="w-8 h-8 rounded-lg object-cover"
+                />
+                <span>GRANDWAVE<span className="text-blue-600">WEB</span></span>
                 <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center">
                   <Code2 className="w-4 h-4" />
                 </div>
-                GRANDWAVE<span className="text-blue-600">WEB</span>
-              </div>
+              </Link>
               <button onClick={() => setOpen(false)} className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
@@ -73,7 +83,7 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className="group flex items-center justify-between py-5 border-b border-slate-100 last:border-0"
                 >
-                  <span className="text- font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors" style={{ fontWeight: 900 }}>
+                  <span className="text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
                     {link.label}
                   </span>
                   <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center transition-all">
@@ -83,15 +93,14 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* الزرار الأزرق */}
             <Link href="#contact" onClick={() => setOpen(false)} className="mt-8 block">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-7 rounded-full text- font-black flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
+              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-7 rounded-full text-base font-black flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
                 <Sparkles className="w-5 h-5" />
                 اطلب موقعك الآن
               </Button>
             </Link>
 
-            <p className="text-center text- font-bold tracking-[0.2em] text-slate-400 mt-6">MADE IN EGYPT • EST. 2026</p>
+            <p className="text-center text-xs font-bold tracking-[0.2em] text-slate-400 mt-6">MADE IN EGYPT • EST. 2026</p>
           </div>
         </div>
       )}

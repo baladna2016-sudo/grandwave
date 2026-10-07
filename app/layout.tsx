@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -26,10 +25,10 @@ export const metadata: Metadata = {
     siteName: "GrandWave",
     images: [
       {
-        url: "/image.webp",
+        url: "https://grandwave-web.vercel.app/hero.jpeg",
         width: 1200,
         height: 630,
-        alt: "GrandWave",
+        alt: "GrandWave - تصميم مواقع احترافية",
       },
     ],
     locale: "ar_EG",
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "GrandWave - تصميم مواقع احترافية",
     description: "تصميم مواقع احترافية - مواقع عصرية وسريعة",
-    images: ["/image.webp"],
+    images: ["https://grandwave-web.vercel.app/hero.jpeg"],
   },
 };
 
@@ -50,16 +49,17 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ar"
+      dir="rtl"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-      
-      <Navbar />
-        {children}
-        
-<Footer />
-        </body>
+      <body className="min-h-full flex flex-col bg-white">
+        <Navbar />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }
